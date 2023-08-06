@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:json_parser/flat_json/photo_json.dart';
+import 'package:json_parser/nested_json/users._json.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: PhotoJson(),
+      home: UsersJson(),
     );
   }
 }

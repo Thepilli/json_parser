@@ -8,7 +8,8 @@ class PhotoJson extends StatelessWidget {
   PhotoJson({super.key});
   final List<Photos> photoList = [];
   Future<List<Photos>> getPhotoApi() async {
-    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
+    final response = await http
+        .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
     var data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
       for (Map photo in data) {
@@ -27,25 +28,31 @@ class PhotoJson extends StatelessWidget {
       body: FutureBuilder(
         future: getPhotoApi(),
         builder: (BuildContext context, AsyncSnapshot<List<Photos>> snapshot) {
-          return ListView.builder(
-            itemCount: 100,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 100,
-                  width: 100,
-                  child: Row(
-                    children: [
-                      Expanded(child: Text(snapshot.data![index].title.toString())),
-                      Image.network(snapshot.data![index].url.toString()),
-                    ],
+          if (!snapshot.hasData) {
+            return const CircularProgressIndicator();
+          } else {
+            return ListView.builder(
+              itemCount: 100,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100,
+                    width: 100,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child:
+                                Text(snapshot.data![index].title.toString())),
+                        Image.network(snapshot.data![index].url.toString()),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          );
+                );
+              },
+            );
+          }
         },
       ),
     );
